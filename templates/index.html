@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planilla de salario</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+</head>
+<body>
+    <section>
+        <div class="formulario">
+            <h1>PLANILLA DE SALARIO</h1>
+            <form action="/calcular" method="POST">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Escriba su nombre">
+    
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" name="apellido" placeholder="Escriba su apellido">
+    
+                <label for="cargo">Cargo</label>
+                <input type="text" id="cargo" name="cargo" placeholder="Escriba su cargo">
+    
+                <label for="salario">Salario</label>
+                <input type="number" id="salario" step="0.01" name="salario" placeholder="Escriba su salario" required>
+    
+                <button type="submit" id="procesarBtn">Procesar</button>
+            </form>
+        </div>
+        <div class="tabla_resultados">
+            <h1>TABLA DE RESULTADOS</h1>
+            {% if salario %}
+            <div class="resultados">
+                <div>
+                    <p>
+                        <span>ISSS</span> 
+                        <span>${{ ISSS }}</span>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <span>AFP</span>
+                        <span>${{ AFP }}</span>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <span>Renta imponible (RI)</span>
+                        <span>${{ renta_imponible }}</span>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <span>Impuesto sobre la renta (ISR)</span> 
+                        <span>${{ ISR }}</span>
+                    </p>
+                </div>
+                <div>
+                    <p>
+                        <span>Salario líquido (SL)</span>
+                        <span>${{ salario_neto }}</span>
+                    </p>
+                </div>
+                <div class="patronal">
+                    <span>Patronal</span> 
+                    <span>ISSS ${{ ISSS_patronal }} &nbsp; AFP ${{ AFP_patronal }}</span>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        
+    </section>
+    <section class="detalles_finales">
+        <div class="contenido_final">
+            <!-- Primera caja -->
+            <div class="caja">
+                <div class="fila one">
+                    <p><strong>{{ nombre }} {{ apellido }}</strong></p>
+                    <p>{{ cargo }}</p>
+                    <p>Salario: ${{ salario }}</p>
+                </div>
+                <div class="fila">
+                    <p>Se le depositará un total de:</p>
+                    <p><strong>${{ salario_neto }}</strong></p>
+                </div>
+            </div>
+            </div>
+
+            <!-- Segunda caja -->
+            <div class="caja">
+                <div class="fila">
+                    <p><strong>Su jefe depositará:</strong></p>
+                </div>
+                <div class="fila">
+                    <p>ISSS: ${{ isss_total }}</p>
+                    <p>AFP: ${{ afp_total }}</p>
+                </div>
+            </div>
+            
+        </div>
+    </section>
+    <script>
+        document.querySelector("form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Evita que el formulario se envíe inmediatamente
+        
+            Swal.fire({
+                title: 'Procesando...',
+                text: 'Por favor, espera',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading(); // Muestra la animación de carga
+                }
+            });
+        
+            // Enviar el formulario después de un pequeño retraso
+            setTimeout(() => {
+                event.target.submit(); // Ahora se envía el formulario
+            }, 700); // Puedes ajustar el tiempo según tu necesidad
+        });
+    </script>
+        
+</body>
+</html>
