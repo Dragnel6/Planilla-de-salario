@@ -1,3 +1,2 @@
-flask
-gunicorn
-waitress  # Opcional, solo si también pruebas en Windows
+Flask==2.3.2 
+gunicorn==23.0.0
