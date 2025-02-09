@@ -1,2 +1,3 @@
 flask
 gunicorn
+waitress  # Opcional, solo si también pruebas en Windows
